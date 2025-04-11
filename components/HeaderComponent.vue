@@ -23,6 +23,7 @@ header
     height: 97px
     align-items: center
     padding: 0 88px
+
 .nav-cont
     display: flex
     flex-direction: row
