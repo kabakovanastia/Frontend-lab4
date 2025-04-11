@@ -9,5 +9,9 @@ export default defineNuxtConfig({
         Montserrat: true,
       }
     }],
-  ] 
+  ],
+  css: [
+    'normalize.css',
+    '@/public/assets/main.css'
+  ],
 })
