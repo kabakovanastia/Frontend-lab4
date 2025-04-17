@@ -35,6 +35,28 @@
 <script setup>
 </script>
 <style scoped lang="sass">
+@use './styles/mixins.sass' as mixins;
+
+footer
+    display: flex
+    flex-direction: column
+    height: 246px
+    padding: 33px 88px
+    background-color: #254741
+    font-family: Monserrat, sans-serif 
+    color: white
+    font-size: 14px
+
+    .info
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        flex: 1
+
+    // @include mixins.for-phone-only
+    //     flex-direction: column
+    //     height: 633px
+
 nav a
     margin-top: 24px
     font-family: Open Sans, sans-serif
@@ -61,15 +83,6 @@ nav a:first-child
 .contact-list a
     text-decoration: none
     color: white
-footer
-    display: flex
-    flex-direction: column
-    height: 246px
-    padding: 33px 88px
-    background-color: #254741
-    font-family: Monserrat, sans-serif 
-    color: white
-    font-size: 14px
 
 .submit-app
     width: 204px
@@ -81,11 +94,7 @@ footer
     background-color: #029F59
     border: 0
     color: white
-.info
-    display: flex
-    flex-direction: row
-    justify-content: space-between
-    flex: 1
+
 ul
     list-style: none
     padding: 0
