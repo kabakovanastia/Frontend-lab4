@@ -71,6 +71,7 @@ $burger-duration: 0.5s
 
     label 
         align-self: flex-end
+
         div 
             display: flex
             justify-content: center
@@ -133,16 +134,14 @@ $burger-duration: 0.5s
                     flex-direction: column
                     margin: 0
                     align-items: flex-start
-                    
-
 
 header 
     display: flex
     flex-direction: row
-    justify-content: space-between
     height: 97px
     align-items: center
     padding: 0 20px
+    justify-content: space-between
 
     label
         display: none
@@ -163,10 +162,35 @@ header
         label
             display: inline
 
+    @include mixins.for-tablet-portrait-up
+        header:first-child
+            justify-content: flex-start
+
+        > *:not(:first-child)
+            justify-content: flex-end
+        .number-cont + .submit-app
+            margin-left: auto
+        nav
+            visibility: hidden
+
+        .submit-app
+            display: none
+        
+        label
+            display: inline
+
     @include mixins.for-tablet-landscape-up
-        // padding: 0 88px
+        nav
+            visibility: visible
+
+        .submit-app
+            display: inline
+        
+        label
+            display: none
 
     @include mixins.for-desktop-up
+        padding: 0 88px
 
 #drawer-checkbox
     position: absolute
@@ -200,7 +224,9 @@ header
 
 
 
-
+body.drawer-open
+    overflow: hidden
+    height: 100vh
 
 
 
@@ -220,6 +246,7 @@ header
 
     nav a
         margin-right: 24px
+        margin-bottom: 7px
         @include mixins.nav-a(#666666)
 
         &:last-child
@@ -229,8 +256,8 @@ header
     width: 160px
     height: 39px
     margin-right: 80px
+
 .submit-app
-    margin-left: 24px
     width: 204px
     height: 49px
     border-radius: 10px
@@ -253,10 +280,12 @@ nav
     font-family: Monserrat, sans-serif 
     font-size: 14px
     color: #666666
+
 span
     margin-left: 8px
+    margin-right: 24px
     width: 121px
-    text-align: center
+    align-self: center
 </style>
 <script setup>
     import { ref } from 'vue'
@@ -265,4 +294,28 @@ span
     const disableCheckbox = () => {
         checked.value = false
     }
+
+    import { onMounted, onBeforeUnmount } from 'vue'
+
+onMounted(() => {
+  const checkbox = document.getElementById('drawer-checkbox')
+
+  const toggleBodyScroll = () => {
+    if (checkbox.checked) {
+      document.body.classList.add('drawer-open')
+    } else {
+      document.body.classList.remove('drawer-open')
+    }
+  }
+
+  checkbox.addEventListener('change', toggleBodyScroll)
+
+  // На случай перезагрузки, если чекбокс уже был активен
+  toggleBodyScroll()
+
+  onBeforeUnmount(() => {
+    checkbox.removeEventListener('change', toggleBodyScroll)
+    document.body.classList.remove('drawer-open')
+  })
+})
 </script>

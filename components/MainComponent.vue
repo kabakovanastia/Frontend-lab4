@@ -4,7 +4,7 @@
         <main>
             <span>Hello, world!</span>
         </main>
-        <!-- <FooterComponent /> -->
+        <FooterComponent />
     </div>
 </template>
 <script setup>

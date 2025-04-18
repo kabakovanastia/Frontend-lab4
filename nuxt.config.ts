@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       families: {
        'Open Sans': [400, 700],
         Montserrat: true,
+        'PT+Root+UI': [400, 500, 700],
       }
     }],
   ],
