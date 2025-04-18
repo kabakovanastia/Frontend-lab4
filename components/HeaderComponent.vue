@@ -12,12 +12,11 @@
             <img class="telephone" src="/assets/telephone.svg" alt="telephone">
             <span>+7 (900) 900-90-90</span>
             <button class="submit-app">Оставить заявку</button>
-        </div>
-        <label for="drawer-checkbox">
+            <label for="drawer-checkbox">
             <div><img src="/assets/burgermenu.svg" alt=""></div>
         </label>
+        </div>
     </header>
-
 
     <input id="drawer-checkbox" type="checkbox" v-model="checked">
     <div class="drawer">
@@ -53,8 +52,12 @@
 <style scoped lang="sass">
 @use './styles/mixins.sass' as mixins;
 $burger-duration: 0.5s
+
+.active-drawer .main-cont
+    overflow: hidden
+
 .drawer
-    position: absolute 
+    position: fixed 
     top: 0 
     right: 0
     height: 100vh
@@ -158,7 +161,9 @@ header
         nav
             display: none
         .number-cont
-            display: none
+            .telephone, span, button
+                display: none
+            
         label
             display: inline
 
@@ -166,12 +171,8 @@ header
         header:first-child
             justify-content: flex-start
 
-        > *:not(:first-child)
-            justify-content: flex-end
-        .number-cont + .submit-app
-            margin-left: auto
         nav
-            visibility: hidden
+            display: none
 
         .submit-app
             display: none
@@ -204,34 +205,9 @@ header
         ~.drawer-backdrop
             opacity: 0.4
             pointer-events: auto
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-body.drawer-open
-    overflow: hidden
-    height: 100vh
-
-
 
 .drawer-backdrop
-    position: absolute
+    position: fixed
     inset: 0
     opacity: 0
     height: 100vh
@@ -243,6 +219,7 @@ body.drawer-open
 .nav-cont
     display: flex
     flex-direction: row
+    align-items: center
 
     nav a
         margin-right: 24px
@@ -251,11 +228,16 @@ body.drawer-open
 
         &:last-child
             margin-right: 0
+    
+    img 
+        width: 160px
+        height: 39px
+        @include mixins.for-phone-only
+            margin-right: 0px
 
-.logo
-    width: 160px
-    height: 39px
-    margin-right: 80px
+        @include mixins.for-tablet-portrait-up
+            margin-right: 80px
+
 
 .submit-app
     width: 204px
@@ -288,34 +270,18 @@ span
     align-self: center
 </style>
 <script setup>
-    import { ref } from 'vue'
+    import { ref, watch } from 'vue'
     const checked = ref(false)
 
     const disableCheckbox = () => {
         checked.value = false
     }
 
-    import { onMounted, onBeforeUnmount } from 'vue'
-
-onMounted(() => {
-  const checkbox = document.getElementById('drawer-checkbox')
-
-  const toggleBodyScroll = () => {
-    if (checkbox.checked) {
-      document.body.classList.add('drawer-open')
-    } else {
-      document.body.classList.remove('drawer-open')
-    }
-  }
-
-  checkbox.addEventListener('change', toggleBodyScroll)
-
-  // На случай перезагрузки, если чекбокс уже был активен
-  toggleBodyScroll()
-
-  onBeforeUnmount(() => {
-    checkbox.removeEventListener('change', toggleBodyScroll)
-    document.body.classList.remove('drawer-open')
-  })
-})
+    watch(checked, (newValue) => {
+        if (newValue) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
 </script>
